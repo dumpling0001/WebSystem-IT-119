@@ -1,35 +1,37 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Admin Dashboard
+        <h2 class="font-semibold text-2xl text-gray-800 leading-tight flex items-center gap-2">
+            🧭 Admin Dashboard
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 text-gray-900 text-center">
-                
-                <h3 class="text-2xl font-semibold mb-2">Welcome, Admin! 👋</h3>
-                <p class="text-gray-600 mb-8">Manage your rooms easily from here.</p>
+    <!-- Grid layout for buttons -->
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                <div class="flex justify-center gap-6">
-                    <a href="{{ route('admin.rooms.create') }}" 
-                        class="bg-green-500 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600 transition">
-                        ➕ Create Room
-                    </a>
+    <!-- Create Room -->
+    <a href="{{ route('admin.rooms.create') }}" 
+       class="group bg-gradient-to-br from-green-500 to-green-600 text-white px-6 py-6 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 text-center text-lg font-semibold">
+        ➕ Create Room
+    </a>
 
-                    <a href="{{ route('admin.rooms.index') }}" 
-                        class="bg-indigo-500 text-white px-6 py-3 rounded-lg shadow hover:bg-indigo-600 transition">
-                        👀 View Rooms
-                    </a>
+    <!-- View Rooms -->
+    <a href="{{ route('admin.rooms.index') }}" 
+       class="group bg-gradient-to-br from-blue-500 to-indigo-600 text-white px-6 py-6 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 text-center text-lg font-semibold">
+        👀 View Rooms
+    </a>
 
-                    <a href="{{ route('admin.manage_teachers') }}" 
-                        class="bg-gray-500 text-white px-6 py-3 rounded-lg shadow hover:bg-gray-600 transition">
-                        Manage Teachers
-                    </a>
+    <!-- Manage Teachers -->
+    <a href="{{ route('admin.manage_teachers') }}" 
+       class="group bg-gradient-to-br from-purple-500 to-purple-600 text-white px-6 py-6 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 text-center text-lg font-semibold">
+        👩‍🏫 Manage Teachers
+    </a>
 
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Manage Subjects -->
+    <a href="{{ route('admin.subjects.list') }}" 
+       class="group bg-gradient-to-br from-sky-500 to-blue-600 text-white px-6 py-6 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 text-center text-lg font-semibold">
+        📘 Manage Subjects
+    </a>
+
+</div>
+
 </x-app-layout>

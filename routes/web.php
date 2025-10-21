@@ -4,18 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoomController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\SubjectController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,25 +20,39 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-#admin
-Route::middleware(['auth', 'admin'])->group(function () {
+# -----------------------
+# ADMIN ROUTES
+# -----------------------
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    // Admin Dashboard
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     // Room routes
-    Route::get('/admin/rooms', [RoomController::class, 'index'])->name('admin.rooms.index');
-    Route::get('/admin/rooms/create', [RoomController::class, 'create'])->name('admin.rooms.create');
-    Route::post('/admin/rooms', [RoomController::class, 'store'])->name('admin.rooms.store');
-    Route::get('/admin/rooms/{room}/edit', [RoomController::class, 'edit'])->name('admin.rooms.edit');
-    Route::delete('/admin/rooms/{room}', [RoomController::class, 'destroy'])->name('admin.rooms.destroy');
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
   
-    Route::get('/admin/manage-teachers', [AdminController::class, 'manageTeachers'])->name('admin.manage_teachers');
-    Route::post('/admin/manage_teachers/{id}/update-role', [AdminController::class, 'updateTeacherRole'])->name('admin.manage_teachers.updateRole');
-    Route::delete('/admin/manage_teachers/{id}', [AdminController::class, 'deleteTeacher'])->name('admin.manage_teachers.destroy');
+    // Manage teachers
+    Route::get('/manage-teachers', [AdminController::class, 'manageTeachers'])->name('manage_teachers');
+    Route::post('/manage_teachers/{id}/update-role', [AdminController::class, 'updateTeacherRole'])->name('manage_teachers.updateRole');
+    Route::delete('/manage_teachers/{id}', [AdminController::class, 'deleteTeacher'])->name('manage_teachers.destroy');
+
+    // ✅ Subject routes (fixed — removed double prefix)
+    Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects.list');
+    Route::get('/subjects/add', [SubjectController::class, 'create'])->name('subjects.add');
+    Route::post('/subjects/store', [SubjectController::class, 'store'])->name('subjects.store');
+    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+    Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('subjects.update');
+    Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('subjects.destroy');
 
 });
 
-
+# -----------------------
+# TEACHER & FACULTY DASHBOARDS
+# -----------------------
 Route::get('/teacher/dashboard', function () {
     return 'Teacher Dashboard';
 })->middleware(['auth']);
@@ -57,6 +60,5 @@ Route::get('/teacher/dashboard', function () {
 Route::get('/faculty/dashboard', function () {
     return 'Faculty Dashboard';
 })->middleware(['auth']);
-
 
 require __DIR__.'/auth.php';
