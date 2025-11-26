@@ -28,6 +28,17 @@
                 <input type="text" name="type" id="type" class="border-gray-300 rounded-md w-full">
             </div>
 
+            <div class="mb-4">
+                <label for="building" class="block text-gray-700">Building:</label>
+                <select name="building" id="building" class="border-gray-300 rounded-md w-full" required>
+                    <option value="">-- Choose Building --</option>
+                    <option value="ACAD">ACAD</option>
+                    <option value="CON">CON</option>
+                    <option value="IT">IT</option>
+                    <option value="SCIENCE">SCIENCE</option>
+                </select>
+            </div>
+
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">
                 Save Room
             </button>

@@ -14,5 +14,6 @@ class Subject extends Model
         'name',
         'code',
         'description',
+        'specialization',
     ];
 }

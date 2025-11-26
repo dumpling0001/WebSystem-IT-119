@@ -12,13 +12,13 @@ class RoomController extends Controller
         {
          $rooms = \App\Models\Room::all();
         return view('admin.rooms', compact('rooms'));
-        }
+        }   
     
 
     // Show form to create a new room
     public function create()
     {
-        $rooms = \App\Models\Room::all(); // get all rooms from database
+        $rooms = \App\Models\Room::all(); 
         return view('admin.create');
     }
 
@@ -28,7 +28,8 @@ class RoomController extends Controller
         $request->validate([
             'name' => 'required',
             'capacity' => 'required|integer',
-            'type' => 'nullable|string'
+            'type' => 'nullable|string',
+            'building' => 'required|string'
         ]);
 
         // Save
@@ -36,6 +37,7 @@ class RoomController extends Controller
             'name' => $request->name,
             'capacity' => $request->capacity,
             'type' => $request->type,
+            'building' => $request->building
         ]);
 
         // Redirect back to room list or dashboard
@@ -56,7 +58,8 @@ class RoomController extends Controller
         $request->validate([
             'name' => 'required',
             'capacity' => 'required|integer',
-            'type' => 'nullable|string'
+            'type' => 'nullable|string',
+            'building' => 'required|string'
         ]);
 
         $room->update($request->all());

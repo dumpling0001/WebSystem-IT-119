@@ -17,6 +17,7 @@
             <th>ID</th>
             <th>Subject Name</th>
             <th>Code</th>
+            <th>Specialization</th> <!-- New column -->
             <th>Actions</th>
         </tr>
         @foreach ($subjects as $subject)
@@ -24,6 +25,7 @@
                 <td>{{ $subject->id }}</td>
                 <td>{{ $subject->name }}</td>
                 <td>{{ $subject->code }}</td>
+                <td>{{ $subject->specialization ?? 'N/A' }}</td> <!-- Display specialization -->
                 <td>
                     <a href="{{ route('admin.subjects.edit', $subject->id) }}">Edit</a>
                     <form action="{{ route('admin.subjects.destroy', $subject->id) }}" method="POST" style="display:inline;">

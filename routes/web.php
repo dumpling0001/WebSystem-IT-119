@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\LoadController;
+use App\Http\Controllers\TeacherController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,20 +30,29 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Admin Dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
-
+    
     // Room routes
     Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
     Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
     Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
     Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
-  
-    // Manage teachers
+   
+ // Manage teachers
     Route::get('/manage-teachers', [AdminController::class, 'manageTeachers'])->name('manage_teachers');
-    Route::post('/manage_teachers/{id}/update-role', [AdminController::class, 'updateTeacherRole'])->name('manage_teachers.updateRole');
-    Route::delete('/manage_teachers/{id}', [AdminController::class, 'deleteTeacher'])->name('manage_teachers.destroy');
+    Route::post('/manage-teachers/{id}/update-role', [AdminController::class, 'updateTeacherRole'])->name('manage_teachers.updateRole');
+    Route::post('/manage-teachers/{id}/update-department', [AdminController::class, 'updateTeacherDepartment'])->name('manage_teachers.updateDepartment');
+    Route::post('/manage-teachers/{id}/update-specialization', [AdminController::class, 'updateTeacherSpecialization'])->name('manage_teachers.updateSpecialization');
+    Route::delete('/manage-teachers/{id}', [AdminController::class, 'deleteTeacher'])->name('manage_teachers.destroy');
+    
+    // Manage Loads
+    Route::get('/loads', [LoadController::class, 'index'])->name('loads.index');
+    Route::post('/loads/store', [LoadController::class, 'store'])->name('loads.store');
+    Route::delete('/loads/{id}', [LoadController::class, 'destroy'])->name('loads.destroy');
+  
+    Route::get('/teacher-subjects', [LoadController::class, 'getSubjects'])->name('getSubjects');
 
-    // ✅ Subject routes (fixed — removed double prefix)
+    // Subject 
     Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects.list');
     Route::get('/subjects/add', [SubjectController::class, 'create'])->name('subjects.add');
     Route::post('/subjects/store', [SubjectController::class, 'store'])->name('subjects.store');
@@ -50,12 +62,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 });
 
-# -----------------------
-# TEACHER & FACULTY DASHBOARDS
-# -----------------------
-Route::get('/teacher/dashboard', function () {
-    return 'Teacher Dashboard';
-})->middleware(['auth']);
+    
+
+
+# TEACHER DASHBOARDS
+Route::middleware(['auth'])->group(function () {
+    Route::get('/teacher/dashboard', [TeacherController::class, 'index'])->name('teacher.dashboard');
+
+    Route::get('/teacher/schedule/download', [TeacherController::class, 'downloadSchedule'])->name('teacher.schedule.download');
+
+
+});
+
+
+
+
+
+
+
 
 Route::get('/faculty/dashboard', function () {
     return 'Faculty Dashboard';

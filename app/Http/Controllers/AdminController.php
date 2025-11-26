@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-
 class AdminController extends Controller
 {
     public function index()
@@ -28,6 +27,24 @@ class AdminController extends Controller
         return back()->with('success', 'Role updated successfully.');
     }
 
+    public function updateTeacherDepartment(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->department = $request->department;
+        $user->save();
+
+        return back()->with('success', 'Department updated successfully.');
+    }
+
+    public function updateTeacherSpecialization(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->specialization = $request->specialization;
+        $user->save();
+
+        return back()->with('success', 'Specialization updated successfully.');
+    }
+
     public function deleteTeacher($id)
     {
         $user = User::findOrFail($id);
@@ -35,7 +52,4 @@ class AdminController extends Controller
 
         return back()->with('success', 'Teacher deleted successfully.');
     }
-
-
-
 }
